@@ -3,9 +3,6 @@ pipeline {
 
   stages {
     stage('Terraform Plan') {
-      when {
-        branch 'main'
-      }
       steps {
         sh '''
             terraform init -upgrade
@@ -15,9 +12,6 @@ pipeline {
     }
 
     stage('Terraform Apply') {
-      when {
-        branch 'main'
-      }
       steps {
         input "Do you wanna apply terraform changes?"
         sh '''
