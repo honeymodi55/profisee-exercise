@@ -6,13 +6,6 @@ resource "aws_s3_bucket" "remote-backend-tfstate" {
     }
 }
 
-resource "aws_s3_bucket" "testbucket" {
-    bucket = "testbucket"
-    tags = {
-        Name = "testbucket"
-        Environment = "testbucket"
-    }
-}
 
 resource "aws_s3_bucket_versioning" "remote-backend-version" {
     bucket = aws_s3_bucket.remote-backend-tfstate.id
