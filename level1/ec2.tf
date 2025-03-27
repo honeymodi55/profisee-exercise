@@ -17,6 +17,15 @@ resource "aws_security_group" "profiseeDemoEC2-sg" {
             "50.220.104.154/32"
         ]
     }
+    ingress {
+        description = "Jenkins"
+        from_port = "8080"
+        to_port = "8080"
+        protocol = "tcp"
+        cidr_blocks = [
+            "50.220.104.154/32"
+        ]
+    }
     egress {
         from_port = "0"
         to_port = "0"
@@ -36,12 +45,29 @@ resource "aws_instance" "profiseeDemoEC2" {
     vpc_security_group_ids = [aws_security_group.profiseeDemoEC2-sg.id]
     associate_public_ip_address = true
     
-    /*provisioner "local-exec" {
-      command = "scp -o StrictHostKeyChecking=no -i \"/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem\" jenkins-docker-install.sh ec2-user@${self.public_ip}:/home/ec2-user/"
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      host = self.public_ip
+      private_key = file("/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem")
     }
-    provisioner "local-exec" {
-      command = "ssh -o StrictHostKeyChecking=no -i \"/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem\" ec2-user@${self.public_ip} 'bash /home/ec2-user/jenkins-docker-install.sh'"
-    }*/
+   
+    provisioner "remote-exec" {
+        inline = [ 
+            "sudo yum update -y",
+            "sudo yum install -y docker",
+            "sudo systemctl start docker",
+            "sudo systemctl enable docker",
+            "sudo usermod -aG docker ec2-user",
+            "sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo",
+            "sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key",
+            "sudo yum upgrade",
+            "sudo dnf install java-17-amazon-corretto -y",
+            "sudo yum install jenkins -y",
+            "sudo systemctl enable jenkins",
+            "sudo systemctl start jenkins"
+         ]
+    }
 
     tags = {
       Name = "profisee-demo-ec2"
