@@ -14,7 +14,7 @@ resource "aws_security_group" "profiseeDemoEC2-sg" {
         to_port = "22"
         protocol = "tcp"
         cidr_blocks = [
-            "96.73.199.165/32"
+            "50.220.104.154/32"
         ]
     }
     egress {
@@ -30,12 +30,19 @@ resource "aws_security_group" "profiseeDemoEC2-sg" {
 ## EC2 instance ##
 resource "aws_instance" "profiseeDemoEC2" {
     ami = "ami-0f9d441b5d66d5f31"
-    instance_type = "t2.micro"
-    key_name = "new-cicd-actual-key"
+    instance_type = "t2.large"
+    key_name = "cicd-pipeline-key"
     subnet_id = aws_subnet.publicSubnet.id
     vpc_security_group_ids = [aws_security_group.profiseeDemoEC2-sg.id]
     associate_public_ip_address = true
     
+    /*provisioner "local-exec" {
+      command = "scp -o StrictHostKeyChecking=no -i \"/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem\" jenkins-docker-install.sh ec2-user@${self.public_ip}:/home/ec2-user/"
+    }
+    provisioner "local-exec" {
+      command = "ssh -o StrictHostKeyChecking=no -i \"/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem\" ec2-user@${self.public_ip} 'bash /home/ec2-user/jenkins-docker-install.sh'"
+    }*/
+
     tags = {
       Name = "profisee-demo-ec2"
     }
