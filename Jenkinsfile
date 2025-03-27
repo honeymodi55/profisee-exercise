@@ -4,6 +4,7 @@ pipeline {
   stages {
     stage('Terraform Plan') {
       when {
+        changeset './*'
         branch 'main'
       }
       steps {
@@ -16,6 +17,7 @@ pipeline {
 
     stage('Terraform Apply') {
       when {
+        changeset './*'
         branch 'main'
       }
       steps {
