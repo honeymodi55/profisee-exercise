@@ -4,8 +4,10 @@ pipeline {
   stages {
     stage('Terraform Plan') {
       when {
-        changeset './*'
-        branch 'main'
+        allof {
+            changeset '**/*.tf'
+            branch 'main'
+        }
       }
       steps {
         sh '''
@@ -17,8 +19,10 @@ pipeline {
 
     stage('Terraform Apply') {
       when {
-        changeset './*'
-        branch 'main'
+        allof {
+            changeset '**/*.tf'
+            branch 'main'
+        }
       }
       steps {
         input "Do you wanna apply terraform changes?"
