@@ -23,7 +23,7 @@ resource "aws_security_group" "profiseeDemoEC2-sg" {
         to_port = "8080"
         protocol = "tcp"
         cidr_blocks = [
-            "50.220.104.154/32"
+            "0.0.0.0/0"
         ]
     }
     egress {
