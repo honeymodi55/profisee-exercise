@@ -1,0 +1,8 @@
+# Ignore sensitive values file
+terraform.tfvars
+
+# Ignore terraform provider info 
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
