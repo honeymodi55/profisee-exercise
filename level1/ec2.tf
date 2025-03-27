@@ -58,7 +58,6 @@ resource "aws_instance" "profiseeDemoEC2" {
       type = "ssh"
       user = "ec2-user"
       host = self.public_ip
-      private_key = file("/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem")
     }
    
     provisioner "remote-exec" {
