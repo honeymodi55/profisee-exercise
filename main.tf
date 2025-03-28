@@ -23,4 +23,8 @@ module "level1" {
 
 module "level2" {
   source = "./level2"
+  vpc_id = module.level1.vpc_id
+  private_subnet_id = module.level1.private_subnet_id
+  public_subnet_id = module.level1.public_subnet_id
+  security_group = module.level1.security_group
 }
