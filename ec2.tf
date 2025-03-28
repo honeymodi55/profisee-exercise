@@ -35,13 +35,12 @@ resource "aws_security_group" "profiseeDemoEC2-sg" {
         ]
     }
 }
-
 ## EC2 instance ##
 resource "aws_instance" "profiseeDemoEC2" {
     ami = "ami-0f9d441b5d66d5f31"
     instance_type = "t2.large"
     key_name = "cicd-pipeline-key"
-    subnet_id = aws_subnet.publicSubnet.id
+    subnet_id = aws_subnet.publicSubnetA.id
     vpc_security_group_ids = [aws_security_group.profiseeDemoEC2-sg.id]
     associate_public_ip_address = true
     
@@ -49,6 +48,7 @@ resource "aws_instance" "profiseeDemoEC2" {
       type = "ssh"
       user = "ec2-user"
       host = self.public_ip
+      private_key = file("/Users/honeymodi/Desktop/VS_proj_prac/cicd-pipeline-creds&keys/newones/cicd-pipeline-key.pem")
     }
    
     provisioner "remote-exec" {
@@ -73,10 +73,3 @@ resource "aws_instance" "profiseeDemoEC2" {
     }
 }
 
-## printing the output ids on terminal ##
-output "security_group" {
-    value = aws_security_group.profiseeDemoEC2-sg.id
-}
-output "ec2_instance" {
-    value = aws_instance.profiseeDemoEC2.id
-}

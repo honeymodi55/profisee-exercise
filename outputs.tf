@@ -11,8 +11,8 @@ output "vpc_id" {
   value = aws_vpc.profiseeVPC.id
 }
 output "public_subnet_ids" {
-  value = [ aws_subnet.publicSubnet.id ]
+  value = [ aws_subnet.publicSubnetA.id , aws_subnet.publicSubnetB.id ]
 }
 output "private_subnet_ids" {
-  value = [ aws_subnet.privateSubnet.id ]
+  value = [ aws_subnet.privateSubnetA.id, aws_subnet.privateSubnetB.id ]
 }

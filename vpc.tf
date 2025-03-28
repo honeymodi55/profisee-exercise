@@ -16,7 +16,7 @@ resource "aws_eip" "profiseeEIP" {
 }
 resource "aws_nat_gateway" "profiseeNAT" {
     allocation_id = aws_eip.profiseeEIP.id
-    subnet_id = aws_subnet.publicSubnet.id
+    subnet_id = aws_subnet.publicSubnetA.id
     tags = {
       Name = "profisee-nat-gateway"
     }
@@ -35,21 +35,37 @@ resource "aws_vpc" "profiseeVPC" {
 
 ######### creating subnets for VPC ##########
 ## Public Subnet ##
-resource "aws_subnet" "publicSubnet" {
+resource "aws_subnet" "publicSubnetA" {
     vpc_id = aws_vpc.profiseeVPC.id
     cidr_block = "10.224.1.0/24"
     availability_zone = "us-west-2a"
     tags = {
-      Name = "public-subnet"
+      Name = "public-subnet-a"
+    }
+}
+resource "aws_subnet" "publicSubnetB" {
+    vpc_id = aws_vpc.profiseeVPC.id
+    cidr_block = "10.224.2.0/24"
+    availability_zone = "us-west-2b"
+    tags = {
+      Name = "public-subnet-b"
     }
 }
 ## Private Subnet ##
-resource "aws_subnet" "privateSubnet" {
+resource "aws_subnet" "privateSubnetA" {
     vpc_id = aws_vpc.profiseeVPC.id
-    cidr_block = "10.224.2.0/24"
+    cidr_block = "10.224.3.0/24"
     availability_zone = "us-west-2a"
     tags = {
-      Name = "private-subnet"
+      Name = "private-subnet-a"
+    }
+}
+resource "aws_subnet" "privateSubnetB" {
+    vpc_id = aws_vpc.profiseeVPC.id
+    cidr_block = "10.224.4.0/24"
+    availability_zone = "us-west-2b"
+    tags = {
+      Name = "private-subnet-b"
     }
 }
 
@@ -79,14 +95,24 @@ resource "aws_route_table" "privateRoutetb" {
 }
 
 ######### creating route table associations with subnet #########
-## Route Table Association for PublicSubnet ##
-resource "aws_route_table_association" "publicRtbAssociation" {
-  subnet_id = aws_subnet.publicSubnet.id
+## Route Table Association for PublicSubnetA ##
+resource "aws_route_table_association" "publicRtbAssociationA" {
+  subnet_id = aws_subnet.publicSubnetA.id
+  route_table_id = aws_route_table.publicRoutetb.id
+}
+## Route Table Association for PublicSubnetB ##
+resource "aws_route_table_association" "publicRtbAssociationB" {
+  subnet_id = aws_subnet.publicSubnetB.id
   route_table_id = aws_route_table.publicRoutetb.id
 }
 
-## Route Table Association for PrivateSubnet ##
-resource "aws_route_table_association" "privateRtbAssociation" {
-  subnet_id = aws_subnet.privateSubnet.id
+## Route Table Association for PrivateSubnetA ##
+resource "aws_route_table_association" "privateRtbAssociationA" {
+  subnet_id = aws_subnet.privateSubnetA.id
+  route_table_id = aws_route_table.privateRoutetb.id
+}
+## Route Table Association for PrivateSubnetB ##
+resource "aws_route_table_association" "privateRtbAssociationB" {
+  subnet_id = aws_subnet.privateSubnetB.id
   route_table_id = aws_route_table.privateRoutetb.id
 }
