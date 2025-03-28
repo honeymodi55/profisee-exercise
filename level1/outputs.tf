@@ -10,9 +10,9 @@ output "ec2_instance_id" {
 output "vpc_id" {
   value = aws_vpc.profiseeVPC.id
 }
-output "public_subnet_id" {
-  value = aws_subnet.publicSubnet.id
+output "public_subnet_ids" {
+  value = [ aws_subnet.publicSubnet.id, aws_subnet.publicSubnet.id ]
 }
-output "private_subnet_id" {
-  value = aws_subnet.privateSubnet.id
+output "private_subnet_ids" {
+  value = [ aws_subnet.privateSubnet.id, aws_subnet.privateSubnet.id ]
 }
