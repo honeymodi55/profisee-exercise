@@ -1,4 +1,4 @@
-/*module "eks" {
+module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
@@ -13,23 +13,21 @@
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
     instance_types = ["t2.micro"]
-    vpc_security_groups_id = 
+    vpc_security_groups_id = [ module.level1.security_group ]
+
   }
 
   eks_managed_node_groups = {
-    example = {
-      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+    node_group = {
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m5.xlarge"]
-
+      instance_types = ["t2.micro"]
       min_size     = 2
-      max_size     = 10
+      max_size     = 4
       desired_size = 2
     }
   }
 
   tags = {
-    Environment = "dev"
-    Terraform   = "true"
+    Name = "profisee"
   }
-}*/
+}
