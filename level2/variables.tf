@@ -13,7 +13,7 @@ variable "public_subnet_id" {
   description = "value of public subnet id from level1"
 }
 
-variable "security_group" {
+variable "security_group_id" {
   type = string
   description = "value of sg from level1"
 }

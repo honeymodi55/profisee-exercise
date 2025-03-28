@@ -13,7 +13,7 @@ module "eks" {
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
     instance_types = ["t2.micro"]
-    vpc_security_groups_id = [ var.security_group ]
+    vpc_security_groups_id = [ var.security_group_id ]
 
   }
 
