@@ -10,6 +10,9 @@ output "ec2_instance_id" {
 output "vpc_id" {
   value = aws_vpc.profiseeVPC.id
 }
+output "vpc_cidr_blocks" {
+  value = aws_vpc.profiseeVPC.cidr_block
+}
 output "public_subnet_ids" {
   value = [ aws_subnet.publicSubnetA.id , aws_subnet.publicSubnetB.id ]
 }
