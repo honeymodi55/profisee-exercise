@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-app
+  labels:
+    app: helloworld-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld-app
+  template:
+    metadata:
+      labels:
+        app: helloworld-app
+    spec:
+      containers:
+        - name: helloworld-app
+          image: 273354629542.dkr.ecr.us-west-2.amazonaws.com/sample-java-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090
+              name: http
+          #envFrom:
+          #- configMapRef:
+          #    name: tenant-ui-config
+          #- secretRef:
+          #    name: tenant-ui-secrets

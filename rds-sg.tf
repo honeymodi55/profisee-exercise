@@ -17,6 +17,15 @@ resource "aws_security_group" "profiseeRDS-sg" {
             "10.224.0.0/16"
         ]
     }
+    ingress {
+        description = "PostgreSQL access from ec2 in public subnet"
+        from_port = "5432"
+        to_port = "5432"
+        protocol = "tcp"
+        cidr_blocks = [
+            "54.188.185.143/32"
+        ]
+    }
 
     egress {
         from_port = "0"
