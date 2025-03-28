@@ -1,5 +1,7 @@
+## role for EKS control plane ##
 resource "aws_iam_role" "profiseeEKS-cluster-role" {
 name = "profisee-eks-cluster-role"
+#allows the EKS service to assume this role to manage the cluster
 assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -16,6 +18,7 @@ assume_role_policy = jsonencode({
 })
 }
 
+## Grants EKS cluster permissions to interact with other resources ##
 resource "aws_iam_role_policy_attachment" "profiseeEKS_cluster_policy" {
 policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 role       = aws_iam_role.profiseeEKS-cluster-role.name

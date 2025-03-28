@@ -1,6 +1,8 @@
+## role for worker nodes ##
 resource "aws_iam_role" "profiseeEKS-nodegroup-role" {
 name = "profiseeEKS-node-group-role"
 
+## allowing EC2 instances (worker nodes) to assume the above role ## 
 assume_role_policy = jsonencode({
     Statement = [{
     Action = "sts:AssumeRole"
@@ -13,16 +15,19 @@ assume_role_policy = jsonencode({
 })
 }
 
+## Grants basic permissions to register nodes with the EKS cluster and join it ##
 resource "aws_iam_role_policy_attachment" "profiseeEKS-ng-WorkerNodePolicy" {
 policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 role       = aws_iam_role.profiseeEKS-nodegroup-role.name
 }
 
+## Grants permissions to worker nodes to setup networking via the CNI plugin ##
 resource "aws_iam_role_policy_attachment" "profiseeEKS-ng-AmazonEKS_CNI_Policy" {
 policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 role       = aws_iam_role.profiseeEKS-nodegroup-role.name
 }
 
+## Grants permissions to pull images from ECR ##
 resource "aws_iam_role_policy_attachment" "profiseeEKS-ng-ContainerRegistryReadOnly" {
 policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 role       = aws_iam_role.profiseeEKS-nodegroup-role.name
