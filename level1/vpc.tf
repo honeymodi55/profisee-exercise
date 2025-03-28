@@ -90,14 +90,3 @@ resource "aws_route_table_association" "privateRtbAssociation" {
   subnet_id = aws_subnet.privateSubnet.id
   route_table_id = aws_route_table.privateRoutetb.id
 }
-
-########## showing the output on terminal ##########
-output "vpc_id" {
-  value = aws_vpc.profiseeVPC.id
-}
-output "public_subnet_id" {
-  value = aws_subnet.publicSubnet.id
-}
-output "private_subnet_id" {
-  value = aws_subnet.privateSubnet.id
-}

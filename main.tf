@@ -21,10 +21,10 @@ module "level1" {
   source = "./level1"
 }
 
-module "level2" {
+/*module "eks" {
   source = "./level2"
   vpc_id = module.level1.vpc_id
   private_subnet_id = module.level1.private_subnet_id
   public_subnet_id = module.level1.public_subnet_id
   security_group_id = module.level1.security_group_id
-}
+}*/
