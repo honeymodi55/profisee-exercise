@@ -7,7 +7,7 @@ resource "aws_internet_gateway" "profiseeIG" {
     }
 }
 
-## NAT Gateway ##
+## NAT Gateway (just adding a comment) ##
 # Nat Gateway uses Elastic IP 
 resource "aws_eip" "profiseeEIP" {
     tags = {
